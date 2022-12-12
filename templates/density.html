@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+
+        <style>
+
+            #main {
+            display: flex;
+            /* display: inline-block; */
+            align-items: center; /* Vertical align the elements to the center */
+            }
+
+            .fcMenuBar {
+                /* display:grid; */
+                grid-template-columns:0.1fr;
+                column-gap:16px;
+                margin-bottom:16px;
+                margin-top:20px;
+            }
+
+            .fcTop {
+
+                display:grid;
+                grid-template-columns:80px auto;
+                column-gap:24px
+            }
+
+            .fcTop img {
+
+                width: 225px;
+            }
+
+            .itemstable {
+
+                width: 100%;
+
+            }
+
+            .itemstable, th, td {
+                text-align: center;
+                border:1px solid black;
+                border-collapse: collapse;
+            }
+            tr:nth-child(even) {background-color: #f2f2f2;}
+            
+            .homeinput {
+                background-color: #494949;
+                border: 0.5px solid rgb(0, 0, 0);
+                border-radius: 75px;
+                color: rgb(255, 255, 255);
+                padding:6px 12px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 16px;
+                margin: 4px 2px;
+                cursor: pointer;
+                -webkit-transition-duration: 0.4s; /* Safari */
+                transition-duration: 0.4s;
+            }
+
+            .homeinput:hover { 
+                background-color: rgb(255, 220, 19);
+                box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+                color:  rgb(0, 0, 0);;
+            }
+
+        </style>
+        
+        
+    </head>
+
+        <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+
+        <div class="fcTop">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBAWW7MUMY5DGaYiO0zKgERsIa7g7wvkXFsA&usqp=CAU"> 
+        </div>
+
+
+        <form method="post" action="/" class="fcMenuBar">
+            <input type="submit" name="action0" class="homeinput" value="Home">
+            <input type="submit"  name="action1" class="homeinput" value="Calculator">
+            <input type="submit"  name="action6" class="homeinput" value="Logins">
+            <input type="submit"  name="action7" class="homeinput" value="Freight Class">
+            <input type="submit"  name="action3" class="homeinput" value="Insurance">
+            <input type="submit"  name="action8" class="homeinput" value="Lane Grader">
+            <input type="submit"  name="action9" class="homeinput" value="Billing">
+            <input type="submit"  name="action10" class="homeinput" value="Services">
+        </form>
+        <hr>
+
+        <h2>Density Calculator</h2>
+        <form method="post" action="/densitycalc">
+            <table>
+                <tr>
+                    <th style="text-align:center">Units</th>
+                    <th style="text-align:center">Length</th>
+                    <th style="text-align:center">Width</th>
+                    <th style="text-align:center">Height</th>
+                    <th style="text-align:center">Weight</th>
+                </tr>
+                    <th>
+                        <select id="type" id="flipunitcount" name="unit_count">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+                            <option value="11">11</option>
+                            <option value="12">12</option>
+                            <option value="13">13</option>
+                            <option value="14">14</option>
+                            <option value="15">15</option>
+                            <option value="16">16</option>
+                            <option value="17">17</option>
+                            <option value="18">18</option>
+                            <option value="19">19</option>
+                           
+                        </select>
+                    </th>
+                    <th>
+                        <input type="text" id="fliplength" name="unit_length" style="width: 35px" value="40">
+                    </th>
+                    <th>
+                        <input type="text" id="flipwidth" name="unit_width" style="width: 35px" value="48">
+                    </th>
+                    <th>
+                        <input type="text" id="flipheight" name="unit_height" style="width: 35px" value="40">
+                    </th>
+                    <th>
+                        <input type="text" id="flipweight" name="unit_weight" style="width: 55px" value="500">
+                    </th>
+                </tr>
+                <!-- </tr>
+                    <th>
+                        <input type="text" name="unit_count2" style="width:20px" value="1">
+                    </th>
+                    <th>
+                        <input type="text" name="unit_length2" style="width: 40px" value="40">
+                    </th>
+                    <th>
+                        <input type="text" name="unit_width2" style="width: 40px" value="48">
+                    </th>
+                    <th>
+                        <input type="text" name="unit_height2" style="width: 40px" value="40">
+                    </th>
+                    <th>
+                        <input type="text" name="unit_weight2" style="width: 60px" value="500">
+                    </th>
+                </tr> -->
+            </table>
+    
+            <input type="submit" value="Convert" onclick="setInput();">
+        </form>
+        
+
+        {% block content %}
+        <!-- <h1>{% block title %} Messages {% endblock %}</h1> -->
+        {% for message in messages %}
+            <h3>{{ message['title'] }}</h3>
+            <h3>{{ message['content'] }}</h3>
+            <h3>{{ message['content2'] }}</h3>
+        {% endfor %}
+        <hr>
+
+        <h2>FAK Items</h2>
+
+        <form method="post" action="/fak" >
+            <label for="type">Choose a Product:</label>
+                <select id="type" name="selection" required>
+                    <option value="" disabled selected>Select your option </option>
+                    <option value="Lighting Fixtures">Lighting Fixtures</option>
+                    <option value="Containers">Containers</option>
+                    <option value="Filters">Filters</option>
+                    <option value="Apparel">Apparel</option>
+                    <option value="Grills">Grills</option>
+                    <option value="Couch/Sofa">Couch/Sofa</option>
+                    <option value="Chairs">Chairs</option>
+                    <option value="Tools">Tools</option>
+                    <option value="Furniture">Furniture</option>
+                    <option value="Trade Show">Trade Show</option>
+                    <option value="Home Furnishing">Home Furnishing</option>
+                    <option value="Toys">Toys - NOI</option>
+                    <option value="Buckles">Buckles - NOI</option>
+                    <option value="Lights">Lights</option> 
+                    <option value="Pillows">Pillows</option>    
+
+                </select>
+                <input type="submit">
+            </form><br>
+    
+        
+        <table>
+          {% for item in items %}
+              <tr>
+                  <th>Product</th>
+                  <th>Descripton</th>
+                  <th>Class</th>
+                  <th>NMFC</th>
+              </tr>
+              <tr>
+                  <th>{{ item['Product'] }}</th>
+                  <th>{{ item['Description'] }}</th>
+                  <th>{{ item['Class'] }}</th>
+                  <th>{{ item['NMFC'] }}</th>
+              </tr>
+        </table>
+        {% endfor %}
+        <hr>
+
+        <div id="main">
+            <!-- <h2>Central Transport Density Scale</h2> -->
+            <form method="post" action="/ctdensity"> <input type="submit" value="Central Transport Density Scale"> </form>
+        </div>
+        <table class="itemstable">
+            <tr>
+                {% for header in headings %}
+                    <th>{{ header }}</th>
+                {% endfor %}
+            </tr>
+            {% for row in data %}
+            <tr>
+                {% for cell in row %}
+                <td>{{ cell }}</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </table>
+        <hr>
+        {% endblock %}
+
+        <h2>Density Rated Items</h2>
+        <table class="itemstable">
+            <tr>
+            <th>Product</th>
+            <th>Density based NMFC </th>
+            </tr>
+            <tr>
+                <td>Novelties - NOI</td>
+                <td>56290-</td>
+            </tr>
+            <tr>
+                <td>Plastic Articles - NOI</td>
+                <td>156600-</td>
+            </tr>
+            <tr>
+                <td>Auto Parts - NOI</td>
+                <td>18260-</td>
+            </tr>
+            <tr>
+                <td>Filters - NOI</td>
+                <td>69100-</td>
+            </tr>
+            <tr>
+                <td>Lighting Fixtures - NOI</td>
+                <td>17870-</td>
+            </tr>
+            <tr>
+                <td>LED Lights - NOI</td>
+                <td>109700-</td>
+            </tr>
+            <tr>
+                <td>Furniture Parts - NOI</td>
+                <td>83270-</td>
+            </tr>
+            <tr>
+                <td>Snack Foods - NOI</td>
+                <td>73260-</td>
+            </tr>
+            <tr>
+                <td>Machines, Systems, or Devices</td>
+                <td>116030-</td>
+            </tr>
+            <tr>
+                <td>Tools - NOI</td>
+                <td>186620-</td>
+            </tr>
+        </table>
+        <hr>
+
+        
+        
+        
+        
+    
+
+   
+
+    <h2>Sub-Classes Table </h2> 
+        <table class="itemstable">
+            <tr>
+                <th>Freight Class</th>
+                <th>Sub-Class</th>
+                <th>Density lbs/cubic_ft</th>
+            </tr>
+            <tr>
+                <td>400</td>
+                <td>######-01</td>
+                <td>Density Less than 1</td>
+            </tr>
+            <tr>
+                <td>300</td>
+                <td>######-02</td>
+                <td>Density 2 but less than 4</td>
+            </tr>
+            <tr>
+                <td>175</td>
+                <td>######-04</td>
+                <td>Density 4 but less than 6</td>
+            </tr>
+            <tr>
+                <td>125</td>
+                <td>######-05</td>
+                <td>Density 6 but less than 8</td>
+            </tr>
+            <tr>
+                <td>100</td>
+                <td>######-06</td>
+                <td>Density 8 but less than 10</td>
+            </tr>
+            <tr>
+                <td>92.5</td>
+                <td>######-07</td>
+                <td>Density 10 but less than 12</td>
+            </tr>
+            <tr>
+                <td>85</td>
+                <td>######-08</td>
+                <td>Density 12 but less than 15</td>
+            </tr>
+            <tr>
+                <td>70</td>
+                <td>######-09</td>
+                <td>Density 15 but less than 22.5</td>
+            </tr>
+            <tr>
+                <td>65</td>
+                <td>######-10</td>
+                <td>Density 22.5 but less than 30</td>
+            </tr>
+            <tr>
+                <td>60</td>
+                <td>######-11</td>
+                <td>Density Less than 1</td>
+            </tr>
+           
+        </table>
+
+       
+
+
+</html>

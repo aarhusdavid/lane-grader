@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+    <head>
+
+        <style>
+
+            .fcMenuBar {
+                /* display:grid; */
+                grid-template-columns:0.1fr;
+                column-gap:16px;
+                margin-bottom:16px;
+                margin-top:20px;
+            }
+
+            .fcTop {
+
+                display:grid;
+                grid-template-columns:80px auto;
+                column-gap:24px
+            }
+
+            .fcTop img {
+
+                width: 225px;
+            }
+            
+            table {
+
+                width: 100%;
+
+            }
+
+            table, th, td {
+                text-align: center;
+                border:1px solid black;
+                border-collapse: collapse;
+            }
+            tr:nth-child(even) {background-color: #f2f2f2;}
+
+
+            .homeinput {
+                background-color: #494949;
+                border: 0.5px solid rgb(0, 0, 0);
+                border-radius: 75px;
+                color: rgb(255, 255, 255);
+                padding:6px 12px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 16px;
+                margin: 4px 2px;
+                cursor: pointer;
+                -webkit-transition-duration: 0.4s; /* Safari */
+                transition-duration: 0.4s;
+            }
+
+            .homeinput:hover { 
+                background-color: rgb(255, 220, 19);
+                box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+                color:  rgb(0, 0, 0);;       
+            }
+
+
+        </style>
+    </head>
+        
+        <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+        
+        <div class="fcTop">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBAWW7MUMY5DGaYiO0zKgERsIa7g7wvkXFsA&usqp=CAU"> 
+        </div>
+        
+        <form method="post" action="/" class="fcMenuBar">
+            <input type="submit" name="action0" class="homeinput" value="Home">
+            <input type="submit"  name="action1" class="homeinput" value="Calculator">
+            <input type="submit"  name="action6" class="homeinput" value="Logins">
+            <input type="submit"  name="action7" class="homeinput" value="Freight Class">
+            <input type="submit"  name="action3" class="homeinput" value="Insurance">
+            <input type="submit"  name="action8" class="homeinput" value="Lane Grader">
+            <input type="submit"  name="action9" class="homeinput" value="Billing">
+            <input type="submit"  name="action10" class="homeinput" value="Services">
+        </form>
+        <hr>
+    
+    <h2>CABO Insurance Converter</h2>
+    <form method="post" action="/insurance" >
+        <input type="text" name="value">
+        <label for="value">Declared Value $ </label>
+        <input type="submit"value="Convert"><br>
+    </form>
+
+    {% block content %}
+    <!-- <h1>{% block title %} Messages {% endblock %}</h1> -->
+    {% for message in messages %}
+        <h4>{{ message['title']}}</h4>
+        <h4>{{ message['content'] }}</h4>
+    {% endfor %}
+    {% endblock %}
+    <hr>
+
+    <h2>TL Insurance Notes</h2>
+    <p>Maximum: The maximum amount of coverage that can be purchased on a TL is $1M. Any amount over $1M will require us to submit to provider for underwriting and approval.</p>
+    <hr>
+    <h3>LTL Deductibles</h3>
+    <table>
+        <tr>
+            <th>Total Insured</th>
+            <th>Deductible</th>
+        </tr>
+        <tr>
+            <td>Less than $25,000:</td>
+            <td>$1,000</td>
+        </tr>
+        <tr>
+            <td>$25,000 - $100,000:</td>
+            <td>$2,500</td>
+        </tr>
+        <tr>
+            <td>Over $100,000:</td>
+            <td>$5,000</td>
+        </tr>
+    </table>
+
+
+    
+
+
+</html>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title>GCL Tools</title>
+            <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
+        <link rel="stylesheet" href="{{ url_for('static', filename= 'css/style.css') }}">
+        <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+
+        
+
+        <style>
+
+            .fcMenuBar {
+                /* display:grid; */
+                grid-template-columns:0.1fr;
+                column-gap:16px;
+                margin-bottom:16px;
+                margin-top:20px;
+            }
+
+        
+            .fcTop {
+
+                display:grid;
+                grid-template-columns:80px auto;
+                column-gap:24px
+            }
+
+            .fcTop img {
+
+                width: 225px;
+            }
+
+            body,div,table {
+                font-family:Roboto,sans-serif;
+                font-size:16px
+            }
+
+            .homeinput:hover {
+                background-color: rgb(255, 220, 19);
+                box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+                color:  rgb(0, 0, 0);;
+
+            }
+
+            .homeinput {
+                background-color: #494949;
+                border: 0.5px solid rgb(0, 0, 0);
+                border-radius: 75px;
+                color: rgb(255, 255, 255);
+                padding:6px 12px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 16px;
+                margin: 4px 2px;
+                cursor: pointer;
+                -webkit-transition-duration: 0.4s; /* Safari */
+                transition-duration: 0.4s;
+            }
+
+            .logoimg {
+                border: 1px solid #ddd;
+                border-radius: 4px;
+                justify-content: center;
+                padding: 5px;
+                width: 200px;
+            }
+
+            .logoimg:hover {
+                box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
+            }
+
+
+           
+           
+        </style>
+    </head>
+
+    <div class="fcTop">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBAWW7MUMY5DGaYiO0zKgERsIa7g7wvkXFsA&usqp=CAU"> 
+	</div>
+    <!-- class="fcMenuBar" -->
+    <form method="post" action="/" class="fcMenuBar">
+        <input type="submit" name="action0" class="homeinput" value="Home">
+        <input type="submit"  name="action1" class="homeinput" value="Calculator">
+        <input type="submit"  name="action6" class="homeinput" value="Logins">
+        <input type="submit"  name="action7" class="homeinput" value="Freight Class">
+        <input type="submit"  name="action3" class="homeinput" value="Insurance">
+        <input type="submit"  name="action8" class="homeinput" value="Lane Grader">
+        <input type="submit"  name="action9" class="homeinput" value="Billing">
+        <input type="submit"  name="action10" class="homeinput" value="Services">
+    </form>
+    <hr>
+
+
+
+    <!-- <h1 style="text-align:center; color: black;">Carrier of the Month - August</h1> -->
+    <iframe  width="100%" height="800px" src="https://www.priority1.com/track-a-shipment/" frameborder="0" scrolling="auto" allowfullscreen>
+        <a href="https://www.priority1.com/track-a-shipment/">
+            <img class="logoimg"src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSNaoPaWNpWaVpjrsU0sGbTHNRkjiaUKGO-jA&usqp=CAU">
+        </a>
+    </iframe>
+
+    
+
+
+</html>

@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+
+
+    <head>
+
+        
+
+        <style>
+
+            .fcMenuBar {
+                grid-template-columns:0.1fr;
+                column-gap:16px;
+                margin-bottom:16px;
+                margin-top:20px;
+            }
+
+            .fcTop {
+
+                display:grid;
+                grid-template-columns:80px auto;
+                column-gap:24px
+            }
+
+            .fcTop img {
+
+                width: 225px;
+            }
+
+            table {
+
+                width: 100%;
+
+            }
+
+            table, th, td {
+                text-align: center;
+                border:1px solid black;
+                border-collapse: collapse;
+            }
+            tr:nth-child(even) {background-color: #f2f2f2;} */
+
+
+
+
+            .zipinput {
+                background-color: rgb(255, 255, 255);
+                width: 100px;
+            }
+
+            /*the container must be positioned relative:*/
+            .autocomplete {
+            position: relative;
+            display: inline-block;
+            }
+
+            /* .carrierinput {
+            border: 1px solid transparent;
+            background-color: #f1f1f1;
+            padding: 10px;
+            font-size: 16px;
+            } */
+
+            .carrierinput[type=text] {
+            background-color: #f1f1f1;
+            width: 100px;
+            }
+
+            .carrierinput[type=submit] {
+            background-color: DodgerBlue;
+            color: #fff;
+            cursor: pointer;
+            }
+
+            .autocomplete-items {
+            position: absolute;
+            border: 1px solid #d4d4d4;
+            border-bottom: none;
+            border-top: none;
+            z-index: 99;
+            /*position the autocomplete items to be the same width as the container:*/
+            top: 100%;
+            left: 0;
+            right: 0;
+            }
+
+            .autocomplete-items div {
+            padding: 10px;
+            cursor: pointer;
+            background-color: #fff; 
+            border-bottom: 1px solid #d4d4d4; 
+            }
+
+            /*when hovering an item:*/
+            .autocomplete-items div:hover {
+            background-color: #e9e9e9; 
+            }
+
+            /*when navigating through the items using the arrow keys:*/
+            .autocomplete-active {
+            background-color: DodgerBlue !important; 
+            color: #ffffff; 
+            }
+
+
+
+            .homeinput:hover {
+                background-color: rgb(255, 220, 19);
+                box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+                color:  rgb(0, 0, 0);;
+
+            }
+
+            .homeinput {
+                background-color: #494949;
+                border: 0.5px solid rgb(0, 0, 0);
+                border-radius: 75px;
+                color: rgb(255, 255, 255);
+                padding:6px 12px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 16px;
+                margin: 4px 2px;
+                cursor: pointer;
+                -webkit-transition-duration: 0.4s; /* Safari */
+                transition-duration: 0.4s;
+            }
+
+        </style>
+    </head>
+        
+        <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+        
+        <div class="fcTop">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBAWW7MUMY5DGaYiO0zKgERsIa7g7wvkXFsA&usqp=CAU"> 
+        </div>
+        
+        <form method="post" action="/" class="fcMenuBar">
+            <input type="submit" name="action0" class="homeinput" value="Home">
+            <input type="submit"  name="action1" class="homeinput" value="Calculator">
+            <input type="submit"  name="action6" class="homeinput" value="Logins">
+            <input type="submit"  name="action7" class="homeinput" value="Freight Class">
+            <input type="submit"  name="action3" class="homeinput" value="Insurance">
+            <input type="submit"  name="action8" class="homeinput" value="Lane Grader">
+            <input type="submit"  name="action9" class="homeinput" value="Billing">
+            <input type="submit"  name="action10" class="homeinput" value="Services">
+        </form>
+        <hr>
+
+        <!-- <h2>Lane Analysis</h2> -->
+        <h2>NOTE - Transit times take into account weekend days. </h2>
+        <hr>
+        <h3>Average Carrier Transits</h3>
+        <form method="post" action="/laneGrader" class="fcMenuBar">
+            <input id="pickzip" name="pickzip" placeholder="Pickup Zip" class="zipinput" type="text" pattern="[0-9]*" required>
+            <input id="destzip" name="destzip" placeholder="Destination Zip" class="zipinput" type="text" pattern="[0-9]*" required>
+            <input type="submit"value="Calculate">
+        </form>
+        <hr>
+        <h3>Carrier Specifc Lane Analysis</h3>
+        <form method="post" class="autocomplete" autocomplete="off" action="/carrierLane">
+            <input id="carrier_pickzip" name="carrier_pickzip" placeholder="Pickup Zip" class="zipinput" type="text" pattern="[0-9]*" required>
+            <input id="carrier_destzip" name="carrier_destzip" placeholder="Destination Zip" class="zipinput" type="text" pattern="[0-9]*" required>
+            <input id="carrier" type="text" name="carrier" class="carrierinput" placeholder="Carrier" required>
+            <input type="submit">
+        </form>
+        <hr>
+        <script>
+
+            var carriers = ['ABF FREIGHT', 'YRC FREIGHT', 'USF REDDAWAY', 'R&L CARRIERS',
+            'AAA COOPER', 'DAYTON FREIGHT LINES', 'CENTRAL TRANSPORT', 'ESTES',
+            'MOUNTAIN VALLEY EXPRESS', 'PITT OHIO', 'FORWARD AIR',
+            'SOUTHEASTERN FREIGHT', 'BEST OVERNITE EXPRESS',
+            'HOLLAND MOTOR EXPRESS', 'CUSTOM COMPANIES', 'SAIA LTL FREIGHT',
+            'CROSS COUNTRY FREIGHT SOLUTIONS', 'TFORCE FREIGHT',
+            'DAYLIGHT TRANSPORT', 'XPO LOGISTICS', 'FEDEX PRIORITY',
+            'WARD TRUCKING', 'NEW PENN MOTOR EXPRESS', 'BEST YET EXPRESS',
+            'ROADRUNNER TRANSPORTATION SYSTEMS', 'OLD DOMINION FREIGHT LINE',
+            'FEDEX ECONOMY', 'OAK HARBOR FREIGHT', 'A. DUIE PYLE',
+            'N&M TRANSFER', 'DOHRN TRANSFER', 'SOUTHWESTERN MOTOR TRANSPORT',
+            'US CARGO', 'FRONTLINE FREIGHT', 'DOUBLE D EXPRESS',
+            'SUTTON TRANSPORT', 'DOT-LINE TRANSPORTATION',
+            'U.S. ROAD FREIGHT EXPRESS', 'CLEAR LANE FREIGHT',
+            'TAX AIRFREIGHT', 'AVERITT EXPRESS', 'MIDWEST MOTOR EXPRESS',
+            'TOTAL TRANSPORTATION & DISTRIBUTION', 'DUGAN TRUCK LINE',
+            'PACE MOTOR LINES', 'LAND AIR EXPRESS OF NEW ENGLAND',
+            'MORAN TRANSPORTATION', 'DEPENDABLE HIGHWAY EXPRESS', 'JP EXPRESS',
+            'ACI MOTOR FREIGHT', 'DIAMOND LINE DELIVERY SYSTEMS',
+            'CENTRAL FREIGHT LINES', 'NUMARK TRANSPORTATION',
+            'VOCAR TRANSPORTATION SERVICES', 'US SPECIAL DELIVERY',
+            'BC FREIGHTWAYS', 'YELLOW LOGISTICS', 'YRC ACCELERATED',
+            'EXPEDITED FREIGHT SYSTEMS', 'STANDARD FORWARDING',
+            'CON-WAY FREIGHT']
+
+
+            function autocomplete(inp, arr) {
+                /*the autocomplete function takes two arguments,
+                the text field element and an array of possible autocompleted values:*/
+                var currentFocus;
+                /*execute a function when someone writes in the text field:*/
+                inp.addEventListener("input", function(e) {
+                    var a, b, i, val = this.value;
+                    /*close any already open lists of autocompleted values*/
+                    closeAllLists();
+                    if (!val) { return false;}
+                    currentFocus = -1;
+                    /*create a DIV element that will contain the items (values):*/
+                    a = document.createElement("DIV");
+                    a.setAttribute("id", this.id + "autocomplete-list");
+                    a.setAttribute("class", "autocomplete-items");
+                    /*append the DIV element as a child of the autocomplete container:*/
+                    this.parentNode.appendChild(a);
+                    /*for each item in the array...*/
+                    for (i = 0; i < arr.length; i++) {
+                        /*check if the item starts with the same letters as the text field value:*/
+                        if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+                        /*create a DIV element for each matching element:*/
+                        b = document.createElement("DIV");
+                        /*make the matching letters bold:*/
+                        b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+                        b.innerHTML += arr[i].substr(val.length);
+                        /*insert a input field that will hold the current array item's value:*/
+                        b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+                        /*execute a function when someone clicks on the item value (DIV element):*/
+                        b.addEventListener("click", function(e) {
+                            /*insert the value for the autocomplete text field:*/
+                            inp.value = this.getElementsByTagName("input")[0].value;
+                            /*close the list of autocompleted values,
+                            (or any other open lists of autocompleted values:*/
+                            closeAllLists();
+                        });
+                        a.appendChild(b);
+                        }
+                    }
+                });
+                /*execute a function presses a key on the keyboard:*/
+                inp.addEventListener("keydown", function(e) {
+                    var x = document.getElementById(this.id + "autocomplete-list");
+                    if (x) x = x.getElementsByTagName("div");
+                    if (e.keyCode == 40) {
+                        /*If the arrow DOWN key is pressed,
+                        increase the currentFocus variable:*/
+                        currentFocus++;
+                        /*and and make the current item more visible:*/
+                        addActive(x);
+                    } else if (e.keyCode == 38) { //up
+                        /*If the arrow UP key is pressed,
+                        decrease the currentFocus variable:*/
+                        currentFocus--;
+                        /*and and make the current item more visible:*/
+                        addActive(x);
+                    } else if (e.keyCode == 13) {
+                        /*If the ENTER key is pressed, prevent the form from being submitted,*/
+                        e.preventDefault();
+                        if (currentFocus > -1) {
+                        /*and simulate a click on the "active" item:*/
+                        if (x) x[currentFocus].click();
+                        }
+                    }
+                });
+            
+
+            function addActive(x) {
+                /*a function to classify an item as "active":*/
+                if (!x) return false;
+                /*start by removing the "active" class on all items:*/
+                removeActive(x);
+                if (currentFocus >= x.length) currentFocus = 0;
+                if (currentFocus < 0) currentFocus = (x.length - 1);
+                /*add class "autocomplete-active":*/
+                x[currentFocus].classList.add("autocomplete-active");
+            }
+
+            function removeActive(x) {
+                /*a function to remove the "active" class from all autocomplete items:*/
+                for (var i = 0; i < x.length; i++) {
+                x[i].classList.remove("autocomplete-active");
+                }
+            }
+
+            function closeAllLists(elmnt) {
+                /*close all autocomplete lists in the document,
+                except the one passed as an argument:*/
+                var x = document.getElementsByClassName("autocomplete-items");
+                for (var i = 0; i < x.length; i++) {
+                if (elmnt != x[i] && elmnt != inp) {
+                    x[i].parentNode.removeChild(x[i]);
+                }
+                }
+            }
+            /*execute a function when someone clicks in the document:*/
+            document.addEventListener("click", function (e) {
+                closeAllLists(e.target);
+            });
+        
+        }
+            autocomplete(document.getElementById("carrier"), carriers);
+
+        </script>
+
+
+    {% block content %}
+    <table>
+        <tr>
+            {% for header in headings %}
+                <th>{{ header }}</th>
+            {% endfor %}
+        </tr>
+        {% for row in data %}
+        <tr>
+            {% for cell in row %}
+            <td>{{ cell }}</td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+
+    </table>
+    {% endblock %}
+
+    
+
+
+</html>

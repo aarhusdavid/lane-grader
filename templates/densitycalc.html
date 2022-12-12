@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+
+   
+
+    <head>
+        <style>
+
+            .fcMenuBar {
+                /* display:grid; */
+                grid-template-columns:0.1fr;
+                column-gap:16px;
+                margin-bottom:16px;
+                margin-top:20px;
+            }
+
+            .fcTop {
+
+                display:grid;
+                grid-template-columns:80px auto;
+                column-gap:24px
+            }
+
+            .fcTop img {
+
+                width: 225px;
+            }
+
+            table {
+                width: 14%;
+            }
+
+            table, th, td {
+                text-align: center;
+                border:1px solid black;
+                border-collapse: collapse;
+                /* width: 14%; */
+            }
+            tr:nth-child(even) {background-color: #f2f2f2;}
+
+
+            .homeinput:hover {
+                background-color: rgb(255, 220, 19);
+                box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+                color:  rgb(0, 0, 0);;
+
+            }
+
+            .homeinput {
+                background-color: #494949;
+                border: 0.5px solid rgb(0, 0, 0);
+                border-radius: 75px;
+                color: rgb(255, 255, 255);
+                padding:6px 12px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 16px;
+                margin: 4px 2px;
+                cursor: pointer;
+                -webkit-transition-duration: 0.4s; /* Safari */
+                transition-duration: 0.4s;
+            }
+
+            .datetime {
+                margin: 4px 2px;
+            }
+
+            p {
+                display:inline-block
+            }
+
+        </style>
+
+        <script> 
+
+            function LengthConverter(valNum) {
+                miles = Math.round(valNum*0.62137)
+                document.getElementById("outputMiles").innerHTML=miles;
+            }
+
+            function weightConverter(valNum) {
+                pounds = Math.round(valNum*2.2046)
+                document.getElementById("outputPounds").innerHTML=pounds;
+            }
+
+            // function marginConverter() {
+            //     var m = document.getElementById("margintype");
+            //     var marg = m.value;    
+            //     var c = document.getElementById("inputCost");
+            //     var cost = Number(c.value); 
+            
+            //     margin = (1-marg)
+            //     rate = (cost/margin).toFixed(2)
+            //     mu = 1/margin
+            //     munext = mu-1
+            //     gp = (rate-cost).toFixed(2)
+            //     upliftperc = (100*munext).toFixed(2);
+
+            //     document.getElementById("outputRate").innerHTML=rate;
+            //     document.getElementById("outputGp").innerHTML=gp;
+            //     document.getElementById("outputUplift").innerHTML=upliftperc;
+
+
+            // }
+
+            function milliConverter() {
+                var t = document.getElementById("dimtype");
+                var type = t.value;    
+                var i = document.getElementById("inputmeasure");
+                var input = i.value;    
+                if (type == "millimeters") {
+                    inches = (input/25.4).toFixed(2)
+                }
+                else if (type == "centimeters") {
+                    inches = (input/2.54).toFixed(2)
+                }
+                else if (type == "meters") {
+                    inches = (input*39.37).toFixed(2)
+                }
+                else if (type == "feet") {
+                    inches = (input*12).toFixed(2)
+                }
+                document.getElementById("outputInches").innerHTML=inches;
+            }
+
+        </script>
+    </head>
+ 
+        <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+
+        <div class="fcTop">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBAWW7MUMY5DGaYiO0zKgERsIa7g7wvkXFsA&usqp=CAU"> 
+        </div>
+
+        <form method="post" action="/" class="fcMenuBar">
+            <input type="submit" name="action0" class="homeinput" value="Home">
+            <input type="submit"  name="action1" class="homeinput" value="Calculator">
+            <input type="submit"  name="action6" class="homeinput" value="Logins">
+            <input type="submit"  name="action7" class="homeinput" value="Freight Class">
+            <input type="submit"  name="action3" class="homeinput" value="Insurance">
+            <input type="submit"  name="action8" class="homeinput" value="Lane Grader">
+            <input type="submit"  name="action9" class="homeinput" value="Billing">
+            <input type="submit"  name="action10" class="homeinput" value="Services">
+        </form>
+        <hr>
+
+
+    <h2>Invoice Picker</h2>
+    <form method="post" action="/datepicker" >
+        <input type="date"  name="date">
+        <input type="submit" value="Calculate"><br>
+    </form>
+    <br>
+
+    {% block content %}
+    <!-- <h1>{% block title %} Messages {% endblock %}</h1> -->
+    {% for message in messages %}
+        <h3>{{ message['title'] }}</h3>
+        <h3>{{ message['content'] }}</h3>
+        <h3>{{ message['content2'] }}</h3>
+    {% endfor %}
+    {% endblock %}
+
+    <hr>
+    <h2>Metric Converters</h2>
+    <!-- <h5>Distance Converter</h5> -->
+    <input id="inputKilometers" type="number" placeholder="Kilometers" oninput="LengthConverter(this.value)" onchange="LengthConverter(this.value)">
+    <p>Miles: <span id="outputMiles"></span></p><br>
+
+    <!-- <h5>Weight Converter</h5> -->
+    <input id="inputKilograms" type="number" placeholder="Kilograms" oninput="weightConverter(this.value)" onchange="weightConverter(this.value)">
+    <p>Pounds: <span id="outputPounds"></span></p><br>
+    
+    <!-- <h5>Dimension Converter</h5> -->
+    <select id="dimtype" style="display:inline-block" name="selection" onchange="milliConverter()">
+        <option value="millimeters">Millimeters</option>
+        <option value="centimeters">Centimeters</option>
+        <option value="meters">Meters</option>
+        <option value="feet">Feet</option>
+
+    </select>
+    <input id="inputmeasure" type="number" placeholder="" oninput="milliConverter()" onchange="milliConverter()">
+    <p>Inches: <span id="outputInches"></span></p><br>
+
+    <hr>
+    <h2>Document Converter/Editor</h2>
+
+    <iframe  width="100%" height="800px" src="https://pdfsimpli.com/home/documents" frameborder="0" scrolling="auto" allowfullscreen>
+        <!-- <a href="https://www.priority1.com/track-a-shipment/">
+            <img class="logoimg"src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSNaoPaWNpWaVpjrsU0sGbTHNRkjiaUKGO-jA&usqp=CAU">
+        </a> -->
+    </iframe>
+    <!-- <h5>Margin Converter</h5> -->
+    <!-- <select id="margintype" type="number" style="display:inline-block" name="selection" onchange="marginConverter()">
+        <option value=0.10>10%</option>
+        <option value=0.11>11%</option>
+        <option value=0.12 selected>12%</option>
+        <option value=0.13>13%</option>
+        <option value=0.14>14%</option>
+        <option value=0.15>15%</option>
+        <option value=0.16>16%</option>
+        <option value=0.17>17%</option>
+        <option value=0.18>18%</option>
+        <option value=0.19>19%</option>
+        <option value=0.20>20%</option>
+    </select>
+    <input id="inputCost" type="number" placeholder="Carrier Cost" oninput="marginConverter()" onchange="marginConverter()">
+        <table>
+                <tr>
+                    <th>Customer Rate</th>
+                    <th>Gross Profit</th>
+                    <th>Markup %</th>
+                </tr>
+                <tr>
+                    <th>$<span id="outputRate"></span></p></th>
+                    <th>$<span id="outputGp"></span></p></th>
+                    <th><span id="outputUplift" style:percent>%</span></p></th>
+                </tr>
+        </table> -->
+
+
+
+   
+
+    <!-- <iframe  width="100%" height="800px" src="https://www.google.com/maps/@30.5627136,-97.659301,14z" frameborder="0" scrolling="auto" allowfullscreen> -->
+        <!-- <a href="https://www.priority1.com/track-a-shipment/">
+            <img class="logoimg"src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSNaoPaWNpWaVpjrsU0sGbTHNRkjiaUKGO-jA&usqp=CAU">
+        </a> -->
+    <!-- </iframe> -->
+
+
+
+</html>

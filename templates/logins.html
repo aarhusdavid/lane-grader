@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+
+        <style>
+
+            .fcMenuBar {
+                /* display:grid; */
+                grid-template-columns:0.1fr;
+                column-gap:16px;
+                margin-bottom:16px;
+                margin-top:20px;
+            }
+
+            .fcTop {
+
+                display:grid;
+                grid-template-columns:80px auto;
+                column-gap:24px
+            }
+
+            .fcTop img {
+
+                width: 225px;
+            }
+
+            table {
+
+                width: 100%;
+
+            }
+
+            table, th, td {
+                text-align: center;
+                border:1px solid black;
+                border-collapse: collapse;
+            }
+            tr:nth-child(even) {background-color: #f2f2f2;}
+
+            .homeinput {
+                background-color: #494949;
+                border: 0.5px solid rgb(0, 0, 0);
+                border-radius: 75px;
+                color: rgb(255, 255, 255);
+                padding:6px 12px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 16px;
+                margin: 4px 2px;
+                cursor: pointer;
+                -webkit-transition-duration: 0.4s; /* Safari */
+                transition-duration: 0.4s;
+            }
+
+            .homeinput:hover { 
+                background-color: rgb(255, 220, 19);
+                box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+                color:  rgb(0, 0, 0);;
+            }
+
+        </style>
+        
+                
+    </head>
+
+        <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+
+        <div class="fcTop">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBAWW7MUMY5DGaYiO0zKgERsIa7g7wvkXFsA&usqp=CAU"> 
+        </div>
+        
+        <form method="post" action="/" class="fcMenuBar">
+            <input type="submit" name="action0" class="homeinput" value="Home">
+            <input type="submit"  name="action1" class="homeinput" value="Calculator">
+            <input type="submit"  name="action6" class="homeinput" value="Logins">
+            <input type="submit"  name="action7" class="homeinput" value="Freight Class">
+            <input type="submit"  name="action3" class="homeinput" value="Insurance">
+            <input type="submit"  name="action8" class="homeinput" value="Lane Grader">
+            <input type="submit"  name="action9" class="homeinput" value="Billing">
+            <input type="submit"  name="action10" class="homeinput" value="Services">
+        </form>
+        <hr>
+
+        <table>
+            <tr>
+                <th>Website</th>
+                <th>Username</th>
+                <th>Password</th>
+                <th>Notes</th>
+            </tr>
+            <!-- <tr>
+                <td><a href="https://classit.nmfta.org/all/Welcome.aspx?ReturnUrl=%2fuser%2fSearch.aspx%3fr%3d0B9BADBCF1D79AE9808A&r=0B9BADBCF1D79AE9808A" target="_blank" rel="noopener noreferrer">ClassIT</a></td>
+                <td>Omar.alami@priority1inc.com </td>
+                <td>BizDev20201! </td>
+                <td> -  </td>
+            </tr>
+            <tr>
+                <td><a href="https://exfreight.flipstone.com/" target="_blank" rel="noopener noreferrer">International Quotes</a></td>
+                <td>agentdevelopment@priority1inc.com </td>
+                <td>SJN11CZCWJ</td>
+                <td>Quoting -- 'Agent Apex' // Carrier: ExFreight Zeta (EXFT) MC#674423 // Rates do not include duties and taxes //</td>
+            </tr>
+            <tr>
+                <td><a href="https://iview.werner.com/Sso/Logon.aspx?appName=customerportal&appKey=#/home-page" target="_blank" rel="noopener noreferrer">Temperature Quotes
+                </a></td>
+                <td>trevor@gclfreight.com</td>
+                <td>Freight1!</td>
+                <td> - </td>
+            </tr> -->
+            <!-- <tr>
+                <td><a href="https://classit.nmfta.org/all/Welcome.aspx?ReturnUrl=%2fuser%2fSearch.aspx%3fr%3d0B9BADBCF1D79AE9808A&r=0B9BADBCF1D79AE9808A" target="_blank" rel="noopener noreferrer">ClassIT</a></td>
+                <td>Omar.alami@priority1inc.com </td>
+                <td>BizDev20201! </td>
+                <td>BizDev20201! </td>
+            </tr> -->
+            
+        </table>
+        <!-- <form method="post" action="/fak" >
+        <label for="type">Choose a Product:</label>
+            <select id="type" name="selection">
+               <option value="ftl">FTL</option>
+                <option value="Lighting">Lighting</option>
+                <option value="Containers">Containers</option>
+                <option value="Filters">Filters</option>
+                <option value="Apparel">Apparel</option>
+                <option value="Grills">Grills</option>
+                <option value="Couch/Sofa">Couch/Sofa</option>
+                <option value="Chairs">Chairs</option>
+                <option value="Tools">Tools</option>
+                <option value="Furniture">Furniture</option>
+                <option value="Trade Show">Trade Show</option>
+                <option value="Home Furnishing">Home Furnishing</option>
+                <option value="Toys">Toys - NOI</option>
+                <option value="Buckles">Buckles - NOI</option>
+
+            </select>
+            <input type="submit">
+        </form><br> --> 
+
+    
+    {% block content %}
+    <table>
+      {% for message in messages %}
+          <tr>
+              <th>Product</th>
+              <th>Descripton</th>
+              <th>Class</th>
+              <th>NMFC</th>
+          </tr>
+          <tr>
+              <th>{{ message['Product'] }}</th>
+              <th>{{ message['Description'] }}</th>
+              <th>{{ message['Class'] }}</th>
+              <th>{{ message['NMFC'] }}</th>
+          </tr>
+    </table>
+    {% endfor %}
+    {% endblock %}
+    
+
+
+</html>
