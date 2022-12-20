@@ -143,6 +143,30 @@
                 <input type="submit">
             </form>
         </div><br>
+
+        <div>
+            <form method="post" action="/whiteglove"><input type="submit" value="Dolly White Glove"></form>
+        </div><br>
+        <tr>
+            {% for cell in info %}
+            <td>{{ cell }}</td>
+            {% endfor %}
+        </tr><br>
+        <h3>{{ title }}</h3>
+       <table>
+            <tr>
+                {% for wg_header in wg_headers %}
+                    <th>{{ wg_header }}</th>
+                {% endfor %}
+            </tr>
+            {% for row in wg_data %}
+            <tr>
+                {% for cell in row %}
+                <td>{{ cell }}</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </table>
     
     <script>
 

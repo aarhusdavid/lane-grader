@@ -89,17 +89,19 @@
 
 
 from flask import Flask, render_template, request
+# from flask_csp.csp import csp_header
 import datetime
 import math
 import sqlite3
 import re
 
 
-
 app = Flask(__name__, template_folder="templates")
 
+front_Auth_secret = '8fe18727dcad37f9'
 
 @app.route("/", methods=['GET','POST'])
+# @csp_header({'Content-Security-Policy:','"frame-ancestors https://*.frontapp.com https://*.frontapplication.com;"'})
 def index():
     # If you're just opening your home page
     if request.method == 'GET':
@@ -413,6 +415,29 @@ def ctdensity():
             return render_template('/density.html', messages=messages)
 
 
+@app.route("/whiteglove/", methods=['GET', 'POST'])
+def whiteglove():
+    # If you're just opening your calculator page
+    if request.method == 'GET':
+        return render_template('/density.html')
+    # If you're submitting a form
+    elif request.method == 'POST':
+        # units_1 = request.form["unit_count"]
+        try:
+            title = "GCL Cost (Do not markup for new customers)"
+            headings = ("Weight Low", "Weight High", "Lead Time Low", "Threshold", "Room of Choice", "Stairs (Per flight")
+            data = [["1","500","Same Day","$159","$25","$20"],
+                    ["500","1,000","Same Day","$169","$35","$30"],
+                    ["1,000","2,000","Same Day","$209","$50","$40"],
+                    ["2,000","3,000","Same Day","$249","$75","$60"],
+                    ["3,000","4,000","24 Hrs","$289","$90","$72"]]
+            info = [" ***This includes 20 miles free, then $2.50 per mile. There is also a $20 charge per order for packaging removal ***"]
+            return render_template('/services.html', wg_headers=headings, wg_data=data, info=info, title=title)
+        except ValueError:
+            headings = (["Error"])
+            return render_template('/density.html', wg_headers=headings)
+
+
 @app.route("/datepicker/", methods=['GET', 'POST'])
 def datepicker():
     # If you're just opening your calculator page
@@ -599,10 +624,9 @@ def services():
             connection.close()
             return render_template('/services.html',headings=headings, data=data)
         else:
-            data = (["NULL", "NULL", "NULL", "NULL"])
-            headings = ("Carrier", "Contact", "Email", "Service", "Origin")
+            headings = (["Error"])
             connection.close()
-            return render_template('/services.html', headings=headings, data=data)
+            return render_template('/services.html', headings=headings)
 
 
 
