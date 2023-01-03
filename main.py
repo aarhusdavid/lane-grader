@@ -715,6 +715,11 @@ def fak():
                             'Description': 'Mattresses; Pillows; or Cushions, NOI',
                             'Class': '70',
                             'NMFC': '16870'}]
+                elif service == "Paraphernalia":
+                    items = [{'Product': "Paraphernalia",
+                            'Description': 'Paraphernalia',
+                            'Class': '125',
+                            'NMFC': '154630'}]
                 else:
                     items = [{'Product': "Error",
                             'Description': 'Error',

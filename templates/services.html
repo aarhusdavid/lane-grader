@@ -31,6 +31,12 @@
 
             }
 
+            iframe {
+                /* margin-left: auto;
+                margin-right: auto; */
+                width: 100%
+            }
+
             table, th, td {
                 text-align: center;
                 border:1px solid black;
@@ -140,12 +146,13 @@
                     <option value="CONESTOGA(FB)">CONESTOGA(FB)</option>
                     <option value="FLATBED">FLATBED</option>
                 </select>
-                <input type="submit">
+                <input  width=100% type="submit">
             </form>
         </div><br>
 
         <div>
             <form method="post" action="/whiteglove"><input type="submit" value="Dolly White Glove"></form>
+            <form method="'get" action="https://customerportal.werner.com/customerportal/#/home-page" target="_blank"><button type="submit">Werner Portal</button></form>
         </div><br>
         <tr>
             {% for cell in info %}
@@ -167,7 +174,8 @@
             </tr>
             {% endfor %}
         </table>
-    
+        <!-- <iframe width="100%" height="700px" name="werner"></iframe> -->
+
     <script>
 
             var services = ['SPRINTER REEFER', 'BOX TRUCK REEFER', 'SPRINTER', 'BOX TRUCK',
